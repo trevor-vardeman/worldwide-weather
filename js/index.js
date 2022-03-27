@@ -13,27 +13,50 @@ const key = config.API_KEY
 const searchForm = document.getElementById("search-form")
 searchForm.addEventListener("submit", e => executeSearch(e))
 
-// saves search value as variable and passes it as argument to getCurrentWeather
+// saves search value as variable and passes it as argument to searchCity
 function executeSearch(e) {
   e.preventDefault()
   const searchTerm = document.getElementById("search").value
   searchForm.reset()
-  getCurrentWeather(searchTerm)
+  searchCity(searchTerm)
 }
 
 // fetches current weather at location of user's search
-function getCurrentWeather(searchTerm) {
+function searchCity(searchTerm) {
   fetch(`https://api.weatherapi.com/v1/forecast.json?key=${key}&q=${searchTerm}&days=3&aqi=no&alerts=no`)
-    .then(response => response.json())
-    .then(response => checkForValidCity(response))
+    .then(res => res.json())
+    .then(data => checkForValidCity(data))
     .catch(err => alert(err))
 }
 
 // checks for valid city or invalid search term
 function checkForValidCity(city) {
   if (city.location != null) {
+    cityInfo(city)
     createCurrentCard(city)
   } else alert(`${city.error.message} Please search again.`)
+}
+
+function cityInfo(city) {
+  // set variables
+  const container = document.getElementById("city-and-weather")
+  const cityName = city.location.name
+
+  // create elements
+  const cityH1 = document.createElement("h1")
+  cityH1.innerText = `${cityName}`
+  const cityDescription = document.createElement("p")
+
+  // fetch & append elements
+  fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${cityName}`)
+  .then(res => res.json())
+  .then(data => {
+    cityDescription.innerText = data.extract
+    container.prepend(cityDescription)
+    container.prepend(cityH1)
+    // cityH1.append(cityDescription)
+  })
+  .catch(err => console.log(err))
 }
 
 function createCurrentCard(weather) {
@@ -104,6 +127,7 @@ function createCurrentCard(weather) {
   listGroup.append(windMPHList)
   listGroup.append(windDirList)
   
+  console.log(weather)
   createFutureForecastCards(weather)
 }
 
@@ -208,7 +232,5 @@ function createFutureForecastCards(weather) {
     listGroup.append(moonriseList)
     listGroup.append(moonsetList)
     listGroup.append(moonPhaseList)
-    
-    console.log(weather)
   }
 }
