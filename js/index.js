@@ -32,11 +32,11 @@ function getCurrentWeather(searchTerm) {
 // checks for valid city or invalid search term
 function checkForValidCity(city) {
   if (city.location != null) {
-    createCards(city)
+    createCurrentCard(city)
   } else alert(`${city.error.message} Please search again.`)
 }
 
-function createCards(weather) {
+function createCurrentCard(weather) {
   // set current weather variables
   const currentCondition = weather.current.condition.text
   const currentConditionImg = weather.current.condition.icon
@@ -48,11 +48,8 @@ function createCards(weather) {
   const windKPH = weather.current.wind_kph
   const windDir = weather.current.wind_dir
 
-  // set future forecast variables
-
   // create card HTML elements
-  const newDiv = document.createElement("div")
-  const newCard = document.createElement("div")
+  const currentCard = document.createElement("div")
   const cardHeader = document.createElement("div")
   const cardBody = document.createElement("div")
   const img = document.createElement("img")
@@ -67,7 +64,7 @@ function createCards(weather) {
   const windDirList = document.createElement("li")
 
   // set card bootstrap attributes
-  newCard.setAttribute("class", "card")
+  currentCard.setAttribute("class", "card")
   img.setAttribute("class", "card-img-top")
   cardHeader.setAttribute("class", "card-header")
   cardBody.setAttribute("class", "card-body")
@@ -81,7 +78,7 @@ function createCards(weather) {
   windKPHList.setAttribute("class", "list-group-item")
   windDirList.setAttribute("class", "list-group-item")
 
-  // use card variables
+  // set values
   cardHeader.innerText = "Right Now"
   img.setAttribute("src", `https:${currentConditionImg}`)
   img.setAttribute("alt", `Image Depicting ${currentCondition}`)
@@ -96,20 +93,122 @@ function createCards(weather) {
 
   // append elements to card
   const cardGroup = document.querySelector(".card-group")
-  cardGroup.append(newCard)
-  newCard.append(cardHeader)
-  newCard.append(img)
-  newCard.append(cardBody)
+  cardGroup.append(currentCard)
+  currentCard.append(cardHeader)
+  currentCard.append(img)
+  currentCard.append(cardBody)
   cardBody.append(cardTitle)
   cardBody.append(listGroup)
   listGroup.append(tempFList)
   listGroup.append(windChillFList)
   listGroup.append(windMPHList)
   listGroup.append(windDirList)
-
-  console.log(weather)
+  
+  createFutureForecastCards(weather)
 }
 
-// function futureForecast(weather) {
-//   const highTempF = weather.forecast.
-// }
+function createFutureForecastCards(weather) {
+  const futureForecast = weather.forecast.forecastday
+  for (i = 0; i < futureForecast.length; i++) {
+    // set variables
+    let date = futureForecast[i].date
+    let condition = futureForecast[i].day.condition.text
+    let conditionImg = futureForecast[i].day.condition.icon
+    let highTempF = futureForecast[i].day.maxtemp_f
+    let highTempC = futureForecast[i].day.maxtemp_c
+    let lowTempF = futureForecast[i].day.mintemp_f
+    let lowTempC = futureForecast[i].day.mintemp_c
+    let maxWindMPH = futureForecast[i].day.maxwind_mph
+    let maxWindKPH = futureForecast[i].day.maxwind_kph
+    let chanceRain = futureForecast[i].day.daily_chance_of_rain
+    let chanceSnow = futureForecast[i].day.daily_chance_of_snow
+    let sunrise = futureForecast[i].astro.sunrise
+    let sunset = futureForecast[i].astro.sunset
+    let moonrise = futureForecast[i].astro.moonrise
+    let moonset = futureForecast[i].astro.moonset
+    let moonPhase = futureForecast[i].astro.moon_phase
+
+    // create card HTML elements
+    let card = document.createElement("div")
+    let cardHeader = document.createElement("div")
+    let cardBody = document.createElement("div")
+    let img = document.createElement("img")
+    let cardTitle = document.createElement("h5")
+    let listGroup = document.createElement("ul")
+    let conditionList = document.createElement("li")
+    let highTempFList = document.createElement("li")
+    let highTempCList = document.createElement("li")
+    let lowTempFList = document.createElement("li")
+    let lowTempCList = document.createElement("li")
+    let maxWindMPHList = document.createElement("li")
+    let maxWindKPHList = document.createElement("li")
+    let chanceRainList = document.createElement("li")
+    let chanceSnowList = document.createElement("li")
+    let sunriseList = document.createElement("li")
+    let sunsetList = document.createElement("li")
+    let moonriseList = document.createElement("li")
+    let moonsetList = document.createElement("li")
+    let moonPhaseList = document.createElement("li")
+
+    // set card bootstrap attributes
+    card.setAttribute("class", "card")
+    img.setAttribute("class", "card-img-top")
+    cardHeader.setAttribute("class", "card-header")
+    cardBody.setAttribute("class", "card-body")
+    cardTitle.setAttribute("class", "card-title")
+    listGroup.setAttribute("class", "list-group")
+    conditionList.setAttribute("class", "list-group-item")
+    highTempFList.setAttribute("class", "list-group-item")
+    highTempCList.setAttribute("class", "list-group-item")
+    lowTempFList.setAttribute("class", "list-group-item")
+    lowTempCList.setAttribute("class", "list-group-item")
+    maxWindMPHList.setAttribute("class", "list-group-item")
+    maxWindKPHList.setAttribute("class", "list-group-item")
+    chanceRainList.setAttribute("class", "list-group-item")
+    chanceSnowList.setAttribute("class", "list-group-item")
+    sunriseList.setAttribute("class", "list-group-item")
+    sunsetList.setAttribute("class", "list-group-item")
+    moonriseList.setAttribute("class", "list-group-item")
+    moonsetList.setAttribute("class", "list-group-item")
+    moonPhaseList.setAttribute("class", "list-group-item")
+
+    // set values
+    cardHeader.innerText = `${date}`
+    img.setAttribute("src", `https:${conditionImg}`)
+    img.setAttribute("alt", `Image Depicting ${condition}`)
+    cardTitle.innerText = `${condition}`
+    highTempFList.innerText = `High Temperature (F): ${highTempF}`
+    highTempCList.innerText = `High Temperature (C): ${highTempC}`
+    lowTempFList.innerText = `Low Temperature (F): ${lowTempF}`
+    lowTempCList.innerText = `Low Temperature (C): ${lowTempC}`
+    maxWindMPHList.innerText = `Max Wind (MPH): ${maxWindMPH}`
+    maxWindKPHList.innerText = `Max Wind (KPH): ${maxWindKPH}`
+    chanceRainList.innerText = `Chance of Rain: ${chanceRain}%`
+    chanceSnowList.innerText = `Chance of Snow: ${chanceSnow}%`
+    sunriseList.innerText = `Sunrise: ${sunrise}`
+    sunsetList.innerText = `Sunset: ${sunset}`
+    moonriseList.innerText = `Moonrise: ${moonrise}`
+    moonsetList.innerText = `Moonset: ${moonset}`
+    moonPhaseList.innerText = `Moon Phase: ${moonPhase}`
+
+    // append elements to card
+    const cardGroup = document.querySelector(".card-group")
+    cardGroup.append(card)
+    card.append(cardHeader)
+    card.append(img)
+    card.append(cardBody)
+    cardBody.append(cardTitle)
+    cardBody.append(listGroup)
+    listGroup.append(highTempFList)
+    listGroup.append(lowTempFList)
+    listGroup.append(chanceRainList)
+    listGroup.append(chanceSnowList)
+    listGroup.append(sunriseList)
+    listGroup.append(sunsetList)
+    listGroup.append(moonriseList)
+    listGroup.append(moonsetList)
+    listGroup.append(moonPhaseList)
+    
+    console.log(weather)
+  }
+}
