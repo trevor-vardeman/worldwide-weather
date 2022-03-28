@@ -32,34 +32,11 @@ function searchCity(searchTerm) {
 // checks for valid city or invalid search term
 function checkForValidCity(city) {
   if (city.location != null) {
-    cityInfo(city)
-    createCurrentCard(city)
+    createCards(city)
   } else alert(`${city.error.message} Please search again.`)
 }
 
-function cityInfo(city) {
-  // set variables
-  const container = document.getElementById("city-and-weather")
-  const cityName = city.location.name
-
-  // create elements
-  const cityH1 = document.createElement("h1")
-  cityH1.innerText = `${cityName}`
-  const cityDescription = document.createElement("p")
-
-  // fetch & append elements
-  fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${cityName}`)
-  .then(res => res.json())
-  .then(data => {
-    cityDescription.innerText = data.extract
-    container.prepend(cityDescription)
-    container.prepend(cityH1)
-    // cityH1.append(cityDescription)
-  })
-  .catch(err => console.log(err))
-}
-
-function createCurrentCard(weather) {
+function createCards(weather) {
   // set current weather variables
   const currentCondition = weather.current.condition.text
   const currentConditionImg = weather.current.condition.icon
@@ -72,6 +49,8 @@ function createCurrentCard(weather) {
   const windDir = weather.current.wind_dir
 
   // create card HTML elements
+  const cityGroup = document.createElement("div")
+  const cardGroup = document.createElement("div")
   const currentCard = document.createElement("div")
   const cardHeader = document.createElement("div")
   const cardBody = document.createElement("div")
@@ -87,6 +66,8 @@ function createCurrentCard(weather) {
   const windDirList = document.createElement("li")
 
   // set card bootstrap attributes
+  cityGroup.setAttribute("class", "city-group")
+  cardGroup.setAttribute("class", "card-group")
   currentCard.setAttribute("class", "card")
   img.setAttribute("class", "card-img-top")
   cardHeader.setAttribute("class", "card-header")
@@ -114,8 +95,10 @@ function createCurrentCard(weather) {
   windKPHList.innerText = `Wind (kph): ${windKPH}`
   windDirList.innerText = `Wind direction: ${windDir}`
 
-  // append elements to card
-  const cardGroup = document.querySelector(".card-group")
+  // append current condition elements to card
+  const container = document.getElementById("city-and-weather")
+  container.append(cityGroup)
+  cityGroup.append(cardGroup)
   cardGroup.append(currentCard)
   currentCard.append(cardHeader)
   currentCard.append(img)
@@ -126,12 +109,7 @@ function createCurrentCard(weather) {
   listGroup.append(windChillFList)
   listGroup.append(windMPHList)
   listGroup.append(windDirList)
-  
-  console.log(weather)
-  createFutureForecastCards(weather)
-}
 
-function createFutureForecastCards(weather) {
   const futureForecast = weather.forecast.forecastday
   for (i = 0; i < futureForecast.length; i++) {
     // set variables
@@ -215,8 +193,7 @@ function createFutureForecastCards(weather) {
     moonsetList.innerText = `Moonset: ${moonset}`
     moonPhaseList.innerText = `Moon Phase: ${moonPhase}`
 
-    // append elements to card
-    const cardGroup = document.querySelector(".card-group")
+    // append future forecast elements to card
     cardGroup.append(card)
     card.append(cardHeader)
     card.append(img)
@@ -233,4 +210,26 @@ function createFutureForecastCards(weather) {
     listGroup.append(moonsetList)
     listGroup.append(moonPhaseList)
   }
+
+  // city info
+  // set variables
+  // const cityGroup = document.getElementById("city-group")
+  const cityName = weather.location.name
+
+  // create elements
+  const cityH3 = document.createElement("h3")
+  cityH3.innerText = `${cityName}`
+  const cityDescription = document.createElement("p")
+
+  // fetch & append elements
+  fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${cityName}`)
+  .then(res => res.json())
+  .then(data => {
+    cityDescription.innerText = data.extract
+    cityGroup.prepend(cityDescription)
+    cityGroup.prepend(cityH3)
+  })
+  .catch(err => console.log(err))
+
+  console.log(weather)
 }
