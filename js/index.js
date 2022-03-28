@@ -1,13 +1,6 @@
 const key = config.API_KEY
-
-// document.addEventListener("DOMContentLoaded", getIP)
-
-// // get user's IP
-// function getIP() {
-//   fetch("https://api.ipify.org/?format=json")
-//     .then(res => res.json())
-//     .then(data => console.log(data))
-// }
+const randomCity = cities
+console.log(randomCity[0])
 
 // get submit form & add event listener
 const searchForm = document.getElementById("search-form")
@@ -227,7 +220,7 @@ function createCards(weather) {
   cityH3.innerText = `${cityName}`
   const cityDescription = document.createElement("p")
 
-  // fetch & append elements
+  // fetch & prepend elements
   fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${cityName}`)
   .then(res => res.json())
   .then(data => {
@@ -240,3 +233,10 @@ function createCards(weather) {
 
   console.log(weather)
 }
+
+// random button
+// const randomCity = cities.cities
+// const randomBtn = document.getElementById("random-btn")
+// randomBtn.addEventListener("click", (e) => {
+//   e.
+// })
