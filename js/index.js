@@ -37,6 +37,12 @@ function checkForValidCity(city) {
 }
 
 function createCards(weather) {
+  // close button
+  let closeBtn = document.createElement("button")
+  closeBtn.setAttribute("class", "btn-close")
+  closeBtn.setAttribute("aria-label", "Close")
+  closeBtn.addEventListener("click", e => e.target.parentNode.remove())
+  
   // set current weather variables
   const currentCondition = weather.current.condition.text
   const currentConditionImg = weather.current.condition.icon
@@ -97,6 +103,7 @@ function createCards(weather) {
 
   // append current condition elements to card
   const container = document.getElementById("city-and-weather")
+  
   container.append(cityGroup)
   cityGroup.append(cardGroup)
   cardGroup.append(currentCard)
@@ -213,7 +220,6 @@ function createCards(weather) {
 
   // city info
   // set variables
-  // const cityGroup = document.getElementById("city-group")
   const cityName = weather.location.name
 
   // create elements
@@ -228,8 +234,9 @@ function createCards(weather) {
     cityDescription.innerText = data.extract
     cityGroup.prepend(cityDescription)
     cityGroup.prepend(cityH3)
+    cityGroup.prepend(closeBtn)
   })
-  .catch(err => console.log(err))
+  .catch(err => alert(err))
 
   console.log(weather)
 }
