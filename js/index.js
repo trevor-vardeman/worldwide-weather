@@ -220,7 +220,18 @@ function createCards(weather) {
 
   // city info
   // set variables
+
+
   const cityName = weather.location.name
+  // const cityText = weather => {
+  //   let cityName = weather.location.name
+  //   let regionName = weather.location.region
+  //   let countryName = weather.location.country
+  //   if (regionName === "") {
+  //     return `${cityName}, ${countryName}`
+  //   } else return `${cityName}, ${regionName}, ${countryName}`
+  // }
+  // console.log(cityText(weather))
   const regionName = weather.location.region
   const countryName = weather.location.country
 
@@ -228,12 +239,18 @@ function createCards(weather) {
   const cityH3 = document.createElement("h3")
   cityH3.innerText = `${cityName}, ${regionName}, ${countryName}`
   const cityDescription = document.createElement("p")
+  // cityH3.innerText = cityText()
 
-  // fetch & prepend elements
+  // fetch & prepend city name and close button
   fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${cityName}`)
   .then(res => res.json())
   .then(data => {
-    cityDescription.innerText = data.extract
+    console.log(data)
+    if (data.title === "Not found." || data.type === "disambiguation"){
+      cityDescription.innerText = `Sorry, no Wikipedia summary found for ${cityName}.`
+    } else {
+      cityDescription.innerText = data.extract
+    }
     cityGroup.prepend(cityDescription)
     cityGroup.prepend(cityH3)
     cityGroup.prepend(closeBtn)

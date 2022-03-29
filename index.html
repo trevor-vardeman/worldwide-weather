@@ -8,16 +8,11 @@
   <title>Worldwide Weather</title>
 </head>
 <body>
+  <!-- App Title -->
   <h1>Worldwide Weather</h1>
   <br>
 
-  <!-- <form class="search-form" id="search-form" autocomplete="on">
-    <label for="search">Search a location!</label><br>
-    <input type="text" id="search" name="search" placeholder="City, zip code...">
-    <input type="submit" value="Submit" class="btn btn-primary">
-  </form>
-  <br> -->
-
+  <!-- Search query/submission -->
   <form class="search-form" id="search-form" autocomplete="on">
     <label for="search">Search a location!</label><br>
     <input type="text" id="search" name="search" id="validationText" required placeholder="City, zip code...">
@@ -25,14 +20,17 @@
   </form>
   <br>
 
+  <!-- Random button -->
   <button id="random-btn" type="submit" class="btn btn-primary">Random location!</button>
   <br><br>
 
+  <!-- Dark mode -->
   <div class="custom-control custom-switch">
     <input type="checkbox" class="custom-control-input" id="customSwitch1">
     <label class="custom-control-label" for="customSwitch1">Dark Mode</label>
   </div>
 
+  <!-- Container for cards that will be added to DOM -->
   <container id="city-and-weather" ></container>
 
   <!--Style-->
