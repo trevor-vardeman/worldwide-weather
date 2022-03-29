@@ -1,15 +1,3 @@
-#city-and-weather {
+#upper-container {
   display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.card-img-top {
-  max-width: 64px;
-  max-height: 64px;
-}
-
-.city-and-weather {
-  display: flex;
-  flex-direction: column;
 }

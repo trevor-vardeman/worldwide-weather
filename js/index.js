@@ -1,9 +1,11 @@
 const key = config.API_KEY
 const importCities = cities
 
+// grab title
+const title = document.getElementById("title")
+
 // random button
 const randomBtn = document.getElementById("random-btn")
-// const randomCity = importCities[Math.floor(Math.random() * importCities.length)]
 randomBtn.addEventListener("click", (e) => {
   let randomCity = importCities[Math.floor(Math.random() * importCities.length)]
   searchCity(randomCity)
@@ -21,19 +23,16 @@ function executeSearch(e) {
   searchCity(searchTerm)
 }
 
-// fetches current weather at location of user's search
+// fetches weather at location of user's search and checks if the city is valid or not
 function searchCity(searchTerm) {
   fetch(`https://api.weatherapi.com/v1/forecast.json?key=${key}&q=${searchTerm}&days=3&aqi=no&alerts=no`)
     .then(res => res.json())
-    .then(data => checkForValidCity(data))
+    .then(data => {
+      if (data.location != null) {
+        createCards(data)
+      } else alert(`${data.error.message} Please search again.`)
+    })
     .catch(err => alert(err))
-}
-
-// checks for valid city or invalid search term
-function checkForValidCity(city) {
-  if (city.location != null) {
-    createCards(city)
-  } else alert(`${city.error.message} Please search again.`)
 }
 
 function createCards(weather) {
@@ -54,7 +53,16 @@ function createCards(weather) {
   const windKPH = weather.current.wind_kph
   const windDir = weather.current.wind_dir
 
+  // function createElement(variable, attributeType, AttributeValue, value) {
+
+  // }
+
+  // function elementCreator(element) {
+  //   return document.createElement(element)
+  // }
   // create card HTML elements
+  // const cityGroup = elementCreator("div")
+
   const cityGroup = document.createElement("div")
   const cardGroup = document.createElement("div")
   const currentCard = document.createElement("div")
@@ -72,9 +80,11 @@ function createCards(weather) {
   const windDirList = document.createElement("li")
 
   // set card bootstrap attributes
+  cityGroup.setAttribute("class", "w-50 p-3")
   cityGroup.setAttribute("class", "city-group")
   cardGroup.setAttribute("class", "card-group")
   currentCard.setAttribute("class", "card")
+  currentCard.setAttribute("class", "border border-dark")
   img.setAttribute("class", "card-img-top")
   cardHeader.setAttribute("class", "card-header")
   cardBody.setAttribute("class", "card-body")
@@ -103,7 +113,8 @@ function createCards(weather) {
 
   // append current condition elements to card
   const container = document.getElementById("city-and-weather")
-  
+  // container.setAttribute("class", "d-flex justify-content-center")
+
   container.prepend(cityGroup)
   cityGroup.append(cardGroup)
   cardGroup.append(currentCard)
@@ -161,6 +172,7 @@ function createCards(weather) {
 
     // set card bootstrap attributes
     card.setAttribute("class", "card")
+    card.setAttribute("class", "border border-dark")
     img.setAttribute("class", "card-img-top")
     cardHeader.setAttribute("class", "card-header")
     cardBody.setAttribute("class", "card-body")
@@ -219,33 +231,26 @@ function createCards(weather) {
   }
 
   // city info
-  // set variables
 
-
-  const cityName = weather.location.name
-  // const cityText = weather => {
-  //   let cityName = weather.location.name
-  //   let regionName = weather.location.region
-  //   let countryName = weather.location.country
-  //   if (regionName === "") {
-  //     return `${cityName}, ${countryName}`
-  //   } else return `${cityName}, ${regionName}, ${countryName}`
-  // }
-  // console.log(cityText(weather))
-  const regionName = weather.location.region
-  const countryName = weather.location.country
-
-  // create elements
+  // create elements & set city name variable
   const cityH3 = document.createElement("h3")
-  cityH3.innerText = `${cityName}, ${regionName}, ${countryName}`
   const cityDescription = document.createElement("p")
-  // cityH3.innerText = cityText()
+  const cityName = weather.location.name
+
+  function cityText(weather) {
+    let cityName = weather.location.name
+    let regionName = weather.location.region
+    let countryName = weather.location.country
+    if (regionName === "") {
+      return cityH3.innerText = `${cityName}, ${countryName}`
+    } else return cityH3.innerText = `${cityName}, ${regionName}, ${countryName}`
+  }
+  cityText(weather)
 
   // fetch & prepend city name and close button
   fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${cityName}`)
   .then(res => res.json())
   .then(data => {
-    console.log(data)
     if (data.title === "Not found." || data.type === "disambiguation"){
       cityDescription.innerText = `Sorry, no Wikipedia summary found for ${cityName}.`
     } else {
