@@ -1,6 +1,13 @@
 const key = config.API_KEY
-const randomCity = cities
-console.log(randomCity[0])
+const importCities = cities
+
+// random button
+const randomBtn = document.getElementById("random-btn")
+// const randomCity = importCities[Math.floor(Math.random() * importCities.length)]
+randomBtn.addEventListener("click", (e) => {
+  let randomCity = importCities[Math.floor(Math.random() * importCities.length)]
+  searchCity(randomCity)
+})
 
 // get submit form & add event listener
 const searchForm = document.getElementById("search-form")
@@ -97,7 +104,7 @@ function createCards(weather) {
   // append current condition elements to card
   const container = document.getElementById("city-and-weather")
   
-  container.append(cityGroup)
+  container.prepend(cityGroup)
   cityGroup.append(cardGroup)
   cardGroup.append(currentCard)
   currentCard.append(cardHeader)
@@ -214,10 +221,12 @@ function createCards(weather) {
   // city info
   // set variables
   const cityName = weather.location.name
+  const regionName = weather.location.region
+  const countryName = weather.location.country
 
   // create elements
   const cityH3 = document.createElement("h3")
-  cityH3.innerText = `${cityName}`
+  cityH3.innerText = `${cityName}, ${regionName}, ${countryName}`
   const cityDescription = document.createElement("p")
 
   // fetch & prepend elements
@@ -233,10 +242,3 @@ function createCards(weather) {
 
   console.log(weather)
 }
-
-// random button
-// const randomCity = cities.cities
-// const randomBtn = document.getElementById("random-btn")
-// randomBtn.addEventListener("click", (e) => {
-//   e.
-// })
