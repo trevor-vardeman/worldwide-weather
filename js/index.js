@@ -25,7 +25,7 @@ function executeSearch(e) {
 
 // fetches weather at location of user's search and checks if the city is valid or not
 function searchCity(searchTerm) {
-  fetch(`https://api.weatherapi.com/v1/forecast.json?key=${key}&q=${searchTerm}&days=3&aqi=no&alerts=no`)
+  fetch(`https://api.weatherapi.com/v1/forecast.json?key=${key}&q=${searchTerm}&days=4&aqi=no&alerts=no`)
     .then(res => res.json())
     .then(data => {
       if (data.location != null) {
@@ -53,16 +53,6 @@ function createCards(weather) {
   const windKPH = weather.current.wind_kph
   const windDir = weather.current.wind_dir
 
-  // function createElement(variable, attributeType, AttributeValue, value) {
-
-  // }
-
-  // function elementCreator(element) {
-  //   return document.createElement(element)
-  // }
-  // create card HTML elements
-  // const cityGroup = elementCreator("div")
-
   const cityGroup = document.createElement("div")
   const cardGroup = document.createElement("div")
   const currentCard = document.createElement("div")
@@ -80,12 +70,12 @@ function createCards(weather) {
   const windDirList = document.createElement("li")
 
   // set card bootstrap attributes
-  cityGroup.setAttribute("class", "w-50 p-3")
   cityGroup.setAttribute("class", "city-group")
   cardGroup.setAttribute("class", "card-group")
   currentCard.setAttribute("class", "card")
   currentCard.setAttribute("class", "border border-dark")
   img.setAttribute("class", "card-img-top")
+  img.setAttribute("class", "fixed-size")
   cardHeader.setAttribute("class", "card-header")
   cardBody.setAttribute("class", "card-body")
   cardTitle.setAttribute("class", "card-title")
@@ -102,6 +92,7 @@ function createCards(weather) {
   cardHeader.innerText = "Right Now"
   img.setAttribute("src", `https:${currentConditionImg}`)
   img.setAttribute("alt", `Image Depicting ${currentCondition}`)
+  img.setAttribute("class", "fixed-size")
   cardTitle.innerText = `${currentCondition}`
   tempFList.innerText = `Temperature (f): ${currentTempF}`
   tempCList.innerText = `Temperature (c): ${currentTempC}`
@@ -113,7 +104,7 @@ function createCards(weather) {
 
   // append current condition elements to card
   const container = document.getElementById("city-and-weather")
-  // container.setAttribute("class", "d-flex justify-content-center")
+  // container.setAttribute("class", "w-75 p-3")
 
   container.prepend(cityGroup)
   cityGroup.append(cardGroup)
@@ -174,6 +165,7 @@ function createCards(weather) {
     card.setAttribute("class", "card")
     card.setAttribute("class", "border border-dark")
     img.setAttribute("class", "card-img-top")
+    img.setAttribute("class", "fixed-size")
     cardHeader.setAttribute("class", "card-header")
     cardBody.setAttribute("class", "card-body")
     cardTitle.setAttribute("class", "card-title")
@@ -197,6 +189,8 @@ function createCards(weather) {
     cardHeader.innerText = `${date}`
     img.setAttribute("src", `https:${conditionImg}`)
     img.setAttribute("alt", `Image Depicting ${condition}`)
+    img.setAttribute("class", "fixed-size")
+
     cardTitle.innerText = `${condition}`
     highTempFList.innerText = `High Temperature (F): ${highTempF}`
     highTempCList.innerText = `High Temperature (C): ${highTempC}`
@@ -233,17 +227,20 @@ function createCards(weather) {
   // city info
 
   // create elements & set city name variable
-  const cityH3 = document.createElement("h3")
+  const cityH5 = document.createElement("h5")
   const cityDescription = document.createElement("p")
   const cityName = weather.location.name
+  cityDescription.setAttribute("id", "city-paragraph")
+  cityDescription.setAttribute("style", "max-width: fit-content;")
+  
 
   function cityText(weather) {
     let cityName = weather.location.name
     let regionName = weather.location.region
     let countryName = weather.location.country
     if (regionName === "") {
-      return cityH3.innerText = `${cityName}, ${countryName}`
-    } else return cityH3.innerText = `${cityName}, ${regionName}, ${countryName}`
+      return cityH5.innerText = `${cityName}, ${countryName}`
+    } else return cityH5.innerText = `${cityName}, ${regionName}, ${countryName}`
   }
   cityText(weather)
 
@@ -257,7 +254,7 @@ function createCards(weather) {
       cityDescription.innerText = data.extract
     }
     cityGroup.prepend(cityDescription)
-    cityGroup.prepend(cityH3)
+    cityGroup.prepend(cityH5)
     cityGroup.prepend(closeBtn)
   })
   .catch(err => alert(err))
