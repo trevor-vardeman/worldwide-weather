@@ -1,8 +1,41 @@
 const key = config.API_KEY
 const importCities = cities
 
-// grab title
-const title = document.getElementById("title")
+// dark mode
+const darkSwitch = document.getElementById("flexSwitchCheckDefault")
+darkSwitch.addEventListener("change", () => {
+  // set variables
+  const body = document.getElementById("background")
+  const closeBtns = document.getElementsByClassName("btn-close")
+  const submitBtn = document.getElementById("submit")
+  const cards = document.getElementsByClassName("border border-dark")
+
+  if (darkSwitch.checked) {
+    // set attributes for dark mode
+    body.setAttribute("class", "p-3 mb-2 bg-dark text-white")
+    submitBtn.removeAttribute("class")
+    submitBtn.setAttribute("class", "btn btn-light")
+    randomBtn.removeAttribute("class")
+    randomBtn.setAttribute("class", "btn btn-light")
+    for (element of closeBtns) {
+      element.setAttribute("class", "btn-close btn-close-white")
+    }
+    // for (element of cards) {
+    //   element.removeAttribute("class")
+    //   element.setAttribute("class", "card text-dark bg-light mb-3")
+    // }
+  } else {
+    // set attributes back to light mode
+    body.setAttribute("class", "p-3 mb-2 bg-light text-dark")
+    submitBtn.setAttribute("class", "btn btn-primary btn btn-dark")
+    randomBtn.setAttribute("class", "btn btn-primary btn btn-dark")
+    for (element of closeBtns) {
+      element.removeAttribute("class")
+      element.setAttribute("class", "btn-close")
+      element.setAttribute("aria-label", "Close")
+    }
+  }
+})
 
 // random button
 const randomBtn = document.getElementById("random-btn")
@@ -71,6 +104,7 @@ function createCards(weather) {
 
   // set card bootstrap attributes
   cityGroup.setAttribute("class", "city-group")
+  cityGroup.setAttribute("style", "text-align: center")
   cardGroup.setAttribute("class", "card-group")
   currentCard.setAttribute("class", "card")
   currentCard.setAttribute("class", "border border-dark")
@@ -104,8 +138,7 @@ function createCards(weather) {
 
   // append current condition elements to card
   const container = document.getElementById("city-and-weather")
-  // container.setAttribute("class", "w-75 p-3")
-
+  
   container.prepend(cityGroup)
   cityGroup.append(cardGroup)
   cardGroup.append(currentCard)
@@ -232,7 +265,6 @@ function createCards(weather) {
   const cityName = weather.location.name
   cityDescription.setAttribute("id", "city-paragraph")
   cityDescription.setAttribute("style", "max-width: fit-content;")
-  
 
   function cityText(weather) {
     let cityName = weather.location.name
@@ -260,4 +292,5 @@ function createCards(weather) {
   .catch(err => alert(err))
 
   console.log(weather)
+  return closeBtn
 }

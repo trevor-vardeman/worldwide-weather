@@ -7,7 +7,7 @@
 
   <title>Worldwide Weather</title>
 </head>
-<body>
+<body id="background" class="p-3 mb-2 bg-light text-dark">
   <div id="upper-container" style="display: flex; flex-direction: column" class="d-flex align-items-center">
     <h1 id="title">Worldwide Weather</h1>
 
@@ -19,7 +19,7 @@
     <form class="search-form" id="search-form" autocomplete="on">
       <label for="search">Search a location!</label><br>
       <input type="text" id="search" id="validationText" required placeholder="City, zip code...">
-      <input type="submit" class="btn btn-primary btn btn-dark">
+      <input type="submit" class="btn btn-primary btn btn-dark" id="submit">
     </form><br>
 
     <div class="d-grid gap-2 d-md-block">

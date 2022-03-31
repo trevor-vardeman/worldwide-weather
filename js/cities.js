@@ -11197,7 +11197,6 @@ const cities = [
 "Kalyandurg",
 "Ponnur",
 "Quthbullapur",
-"Ramanayyapeta",
 "Palwancha",
 "Barpeta Road",
 "Sathupalli",
