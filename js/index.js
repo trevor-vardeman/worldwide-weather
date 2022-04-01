@@ -8,7 +8,6 @@ darkSwitch.addEventListener("change", () => {
   const body = document.getElementById("background")
   const closeBtns = document.getElementsByClassName("btn-close")
   const submitBtn = document.getElementById("submit")
-  const cards = document.getElementsByClassName("border border-dark")
 
   if (darkSwitch.checked) {
     // set attributes for dark mode
@@ -20,10 +19,6 @@ darkSwitch.addEventListener("change", () => {
     for (element of closeBtns) {
       element.setAttribute("class", "btn-close btn-close-white")
     }
-    // for (element of cards) {
-    //   element.removeAttribute("class")
-    //   element.setAttribute("class", "card text-dark bg-light mb-3")
-    // }
   } else {
     // set attributes back to light mode
     body.setAttribute("class", "p-3 mb-2 bg-light text-dark")
@@ -39,7 +34,7 @@ darkSwitch.addEventListener("change", () => {
 
 // random button
 const randomBtn = document.getElementById("random-btn")
-randomBtn.addEventListener("click", (e) => {
+randomBtn.addEventListener("click", () => {
   let randomCity = importCities[Math.floor(Math.random() * importCities.length)]
   searchCity(randomCity)
 })
@@ -58,7 +53,7 @@ function executeSearch(e) {
 
 // fetches weather at location of user's search and checks if the city is valid or not
 function searchCity(searchTerm) {
-  fetch(`https://api.weatherapi.com/v1/forecast.json?key=${key}&q=${searchTerm}&days=4&aqi=no&alerts=no`)
+  fetch(`https://api.weatherapi.com/v1/forecast.json?key=${key}&q=${searchTerm}&days=10&aqi=no&alerts=no`)
     .then(res => res.json())
     .then(data => {
       if (data.location != null) {
@@ -108,6 +103,7 @@ function createCards(weather) {
   cardGroup.setAttribute("class", "card-group")
   currentCard.setAttribute("class", "card")
   currentCard.setAttribute("class", "border border-dark")
+  currentCard.setAttribute("style", "min-width: 289px;")
   img.setAttribute("class", "card-img-top")
   img.setAttribute("class", "fixed-size")
   cardHeader.setAttribute("class", "card-header")
@@ -128,12 +124,12 @@ function createCards(weather) {
   img.setAttribute("alt", `Image Depicting ${currentCondition}`)
   img.setAttribute("class", "fixed-size")
   cardTitle.innerText = `${currentCondition}`
-  tempFList.innerText = `Temperature (f): ${currentTempF}`
-  tempCList.innerText = `Temperature (c): ${currentTempC}`
-  windChillFList.innerText = `Wind chill (f): ${windChillF}`
-  windChillCList.innerText = `Wind chill (c): ${windChillC}`
-  windMPHList.innerText = `Wind (mph): ${windMPH}`
-  windKPHList.innerText = `Wind (kph): ${windKPH}`
+  tempFList.innerText = `Temperature (F): ${currentTempF}`
+  tempCList.innerText = `Temperature (C): ${currentTempC}`
+  windChillFList.innerText = `Wind chill (F): ${windChillF}`
+  windChillCList.innerText = `Wind chill (C): ${windChillC}`
+  windMPHList.innerText = `Wind (MPH): ${windMPH}`
+  windKPHList.innerText = `Wind (KPH): ${windKPH}`
   windDirList.innerText = `Wind direction: ${windDir}`
 
   // append current condition elements to card
@@ -152,10 +148,16 @@ function createCards(weather) {
   listGroup.append(windMPHList)
   listGroup.append(windDirList)
 
+  // create today's date to compare dates to
+  function formatDate(date) {
+    const [newDate] = new Date(date).toISOString().split('T')
+    return newDate
+  }
+  const today = formatDate((new Date()))
+
   const futureForecast = weather.forecast.forecastday
   for (i = 0; i < futureForecast.length; i++) {
     // set variables
-    let date = futureForecast[i].date
     let condition = futureForecast[i].day.condition.text
     let conditionImg = futureForecast[i].day.condition.icon
     let highTempF = futureForecast[i].day.maxtemp_f
@@ -197,6 +199,7 @@ function createCards(weather) {
     // set card bootstrap attributes
     card.setAttribute("class", "card")
     card.setAttribute("class", "border border-dark")
+    card.setAttribute("style", "min-width: 289px;")
     img.setAttribute("class", "card-img-top")
     img.setAttribute("class", "fixed-size")
     cardHeader.setAttribute("class", "card-header")
@@ -219,7 +222,17 @@ function createCards(weather) {
     moonPhaseList.setAttribute("class", "list-group-item")
 
     // set values
-    cardHeader.innerText = `${date}`
+    // cardHeader.innerText = `${date}`
+    function dateChecker() {
+      let date = futureForecast[i].date
+      if (date === today) {
+        return cardHeader.innerText = "Today"
+      } else if (date === today + 1) {
+        return cardHeader.innerText = "Tomorrow"
+      } else return cardHeader.innerText = `${date}`
+    }
+    dateChecker(weather)
+
     img.setAttribute("src", `https:${conditionImg}`)
     img.setAttribute("alt", `Image Depicting ${condition}`)
     img.setAttribute("class", "fixed-size")
@@ -263,6 +276,7 @@ function createCards(weather) {
   const cityH5 = document.createElement("h5")
   const cityDescription = document.createElement("p")
   const cityName = weather.location.name
+  const br = document.createElement("br")
   cityDescription.setAttribute("id", "city-paragraph")
   cityDescription.setAttribute("style", "max-width: fit-content;")
 
@@ -288,6 +302,7 @@ function createCards(weather) {
     cityGroup.prepend(cityDescription)
     cityGroup.prepend(cityH5)
     cityGroup.prepend(closeBtn)
+    cityGroup.append(br)
   })
   .catch(err => alert(err))
 
