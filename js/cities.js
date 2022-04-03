@@ -3938,7 +3938,6 @@ const cities = [
 "Galapa",
 "Fusagasuga",
 "Funza",
-"Fundacion",
 "Fresno",
 "Fonseca",
 "Floridablanca",

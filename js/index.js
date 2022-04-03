@@ -53,7 +53,7 @@ function executeSearch(e) {
 
 // fetches weather at location of user's search and checks if the city is valid or not
 function searchCity(searchTerm) {
-  fetch(`https://api.weatherapi.com/v1/forecast.json?key=${key}&q=${searchTerm}&days=10&aqi=no&alerts=no`)
+  fetch(`https://api.weatherapi.com/v1/forecast.json?key=${key}&q=${searchTerm}&days=3&aqi=no&alerts=no`)
     .then(res => res.json())
     .then(data => {
       if (data.location != null) {
@@ -65,10 +65,16 @@ function searchCity(searchTerm) {
 
 function createCards(weather) {
   // close button
-  let closeBtn = document.createElement("button")
-  closeBtn.setAttribute("class", "btn-close")
-  closeBtn.setAttribute("aria-label", "Close")
-  closeBtn.addEventListener("click", e => e.target.parentNode.remove())
+  const closeBtn = document.createElement("button")
+  if (darkSwitch.checked) {
+    closeBtn.setAttribute("class", "btn-close btn-close-white")
+    closeBtn.setAttribute("aria-label", "Close")
+    closeBtn.addEventListener("click", e => e.target.parentNode.remove())
+  } else {
+    closeBtn.setAttribute("class", "btn-close")
+    closeBtn.setAttribute("aria-label", "Close")
+    closeBtn.addEventListener("click", e => e.target.parentNode.remove())
+  }
   
   // set current weather variables
   const currentCondition = weather.current.condition.text
@@ -148,12 +154,7 @@ function createCards(weather) {
   listGroup.append(windMPHList)
   listGroup.append(windDirList)
 
-  // create today's date to compare dates to
-  function formatDate(date) {
-    const [newDate] = new Date(date).toISOString().split('T')
-    return newDate
-  }
-  const today = formatDate((new Date()))
+  // create future forecast cards
 
   const futureForecast = weather.forecast.forecastday
   for (i = 0; i < futureForecast.length; i++) {
@@ -221,17 +222,14 @@ function createCards(weather) {
     moonsetList.setAttribute("class", "list-group-item")
     moonPhaseList.setAttribute("class", "list-group-item")
 
-    // set values
-    // cardHeader.innerText = `${date}`
-    function dateChecker() {
-      let date = futureForecast[i].date
-      if (date === today) {
-        return cardHeader.innerText = "Today"
-      } else if (date === today + 1) {
-        return cardHeader.innerText = "Tomorrow"
-      } else return cardHeader.innerText = `${date}`
-    }
-    dateChecker(weather)
+    // set date values
+    let testDate = futureForecast[i].date
+    let splitDate = testDate.split("-")
+    let newDateObj = new Date(splitDate[0], splitDate[1], splitDate[2])
+    let stringDate = newDateObj.toString()
+    let splitDateObj = stringDate.split(" ")
+    let desiredDate = `${splitDateObj[0]} ${splitDateObj[1]} ${splitDateObj[2]}, ${splitDateObj[3]}`
+    cardHeader.innerText = desiredDate
 
     img.setAttribute("src", `https:${conditionImg}`)
     img.setAttribute("alt", `Image Depicting ${condition}`)
@@ -305,7 +303,4 @@ function createCards(weather) {
     cityGroup.append(br)
   })
   .catch(err => alert(err))
-
-  console.log(weather)
-  return closeBtn
 }
