@@ -12,7 +12,7 @@
   <title>Worldwide Weather</title>
 </head>
 <body id="background" class="p-3 mb-2 bg-light text-dark">
-  <div id="upper-container" style="display: flex; flex-direction: column" class="d-flex align-items-center">
+  <div id="upper-container" style="display: flex; flex-direction: column; min-height: 100vh;" class="d-flex align-items-center">
     <h1 id="title" style="font-size: 5rem; font-family: 'Indie Flower', cursive;">Worldwide Weather</h1>
 
     <div class="form-check form-switch">
@@ -32,6 +32,13 @@
 
   <!-- Container for cards that will be added to DOM -->
     <div id="city-and-weather"></div>
+
+    <footer class ="page-footer" style="flex-shrink: 0; padding: 20px; margin-top: auto;">
+      <a href="https://github.com/trevortx" target="_blank">
+        <img id="github-logo" src="images/GitHub-Mark-32px.png" alt="github logo">
+      </a>
+    </footer>
+  </div>
 
   <!--Style-->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

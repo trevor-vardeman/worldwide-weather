@@ -8,6 +8,7 @@ darkSwitch.addEventListener("change", () => {
   const body = document.getElementById("background")
   const closeBtns = document.getElementsByClassName("btn-close")
   const submitBtn = document.getElementById("submit")
+  const githubLogo = document.getElementById("github-logo")
 
   if (darkSwitch.checked) {
     // set attributes for dark mode
@@ -16,6 +17,8 @@ darkSwitch.addEventListener("change", () => {
     submitBtn.setAttribute("class", "btn btn-light")
     randomBtn.removeAttribute("class")
     randomBtn.setAttribute("class", "btn btn-light")
+    githubLogo.removeAttribute("src")
+    githubLogo.setAttribute("src", "images/GitHub-Mark-Light-32px.png")
     for (element of closeBtns) {
       element.setAttribute("class", "btn-close btn-close-white")
     }
@@ -24,6 +27,8 @@ darkSwitch.addEventListener("change", () => {
     body.setAttribute("class", "p-3 mb-2 bg-light text-dark")
     submitBtn.setAttribute("class", "btn btn-primary btn btn-dark")
     randomBtn.setAttribute("class", "btn btn-primary btn btn-dark")
+    githubLogo.removeAttribute("src")
+    githubLogo.setAttribute("src", "images/GitHub-Mark-32px.png")
     for (element of closeBtns) {
       element.removeAttribute("class")
       element.setAttribute("class", "btn-close")
@@ -66,14 +71,12 @@ function searchCity(searchTerm) {
 function createCards(weather) {
   // close button
   const closeBtn = document.createElement("button")
+  closeBtn.addEventListener("click", e => e.target.parentNode.remove())
+  closeBtn.setAttribute("aria-label", "Close")
   if (darkSwitch.checked) {
     closeBtn.setAttribute("class", "btn-close btn-close-white")
-    closeBtn.setAttribute("aria-label", "Close")
-    closeBtn.addEventListener("click", e => e.target.parentNode.remove())
   } else {
     closeBtn.setAttribute("class", "btn-close")
-    closeBtn.setAttribute("aria-label", "Close")
-    closeBtn.addEventListener("click", e => e.target.parentNode.remove())
   }
   
   // set current weather variables
