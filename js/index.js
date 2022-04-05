@@ -25,8 +25,8 @@ darkSwitch.addEventListener("change", () => {
   } else {
     // set attributes back to light mode
     body.setAttribute("class", "p-3 mb-2 bg-light text-dark")
-    submitBtn.setAttribute("class", "btn btn-primary btn btn-dark")
-    randomBtn.setAttribute("class", "btn btn-primary btn btn-dark")
+    submitBtn.setAttribute("class", "btn btn-dark")
+    randomBtn.setAttribute("class", "btn btn-dark")
     githubLogo.removeAttribute("src")
     githubLogo.setAttribute("src", "images/GitHub-Mark-32px.png")
     for (element of closeBtns) {
