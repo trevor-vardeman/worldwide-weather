@@ -3,7 +3,7 @@
 Hello, and welcome to Worldwide Weather!
 
 ## Preview
-![Video Preview](https://i.imgur.com/bXsVUlG.mp4)
+![Gif Preview](https://i.imgur.com/E9x9JTe.gifv)
 
 ## Introduction
 
