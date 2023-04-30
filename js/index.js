@@ -5,10 +5,16 @@ const importCities = cities
 const darkSwitch = document.getElementById("flexSwitchCheckDefault")
 darkSwitch.addEventListener("change", () => {
   // set variables
+  let counter = document.getElementById("counter")
+  // let var = 0
   const body = document.getElementById("background")
   const closeBtns = document.getElementsByClassName("btn-close")
   const submitBtn = document.getElementById("submit")
   const githubLogo = document.getElementById("github-logo")
+
+  // console.log(counter.innerHTML)
+  counter.innerHTML++
+  // counter.innerHTML=var
 
   if (darkSwitch.checked) {
     // set attributes for dark mode
@@ -78,7 +84,7 @@ function createCards(weather) {
   } else {
     closeBtn.setAttribute("class", "btn-close")
   }
-  
+
   // set current weather variables
   const currentCondition = weather.current.condition.text
   const currentConditionImg = weather.current.condition.icon
@@ -307,3 +313,5 @@ function createCards(weather) {
   })
   .catch(err => alert(err))
 }
+
+// on dark mode toggle, add counter to add 1
