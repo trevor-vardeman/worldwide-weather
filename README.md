@@ -2,8 +2,8 @@
 
 Hello, and welcome to Worldwide Weather!
 
-## Preview
-[GIF Preview](https://i.imgur.com/E9x9JTe.gifv)
+## GIF Preview
+![](https://i.imgur.com/XsCt6o7.gif)
 
 ## Introduction
 
