@@ -39,4 +39,4 @@ City data in "cities.js" courtesy of the following:
 
 APIs used:
 - [weatherapi.com](https://www.weatherapi.com/)
-- [wikimedia.org] (https://www.mediawiki.org/wiki/Wikimedia_REST_API)
+- [wikimedia.org](https://www.mediawiki.org/wiki/Wikimedia_REST_API)

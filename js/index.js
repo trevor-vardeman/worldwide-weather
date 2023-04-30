@@ -313,5 +313,3 @@ function createCards(weather) {
   })
   .catch(err => alert(err))
 }
-
-// on dark mode toggle, add counter to add 1
